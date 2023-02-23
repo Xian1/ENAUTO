@@ -2,7 +2,7 @@ import json
 import requests
 
 
-base_url ="https://131.226.217.159/"
+base_url ="https://131.226.217.159"
 auth_endpoint = "j_security_check"
 
 login_body={
