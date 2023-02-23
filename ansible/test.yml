@@ -1,0 +1,12 @@
+---
+- name: Change The Hostname
+  hosts: iosxe
+  gather_facts: False
+  
+  tasks:
+    - name: change The hostname
+      cisco.ios.ios_hostname:
+        config:
+          hostname: Router_Ansible1
+        state: merged
+      register: output
