@@ -2,7 +2,7 @@ import json
 import requests
 
 
-base_url ="https://131.226.217.159"
+base_url ="https://131.226.217.159/"
 auth_endpoint = "j_security_check"
 
 login_body={
@@ -14,8 +14,10 @@ sesh = requests.session()
 login_response = sesh.post(url=f"{base_url}{auth_endpoint}", data=login_body, verify=False)
 print (login_response.status_code)
 
-device_endpoint = "dataservice/system/device/vedges"
+device_endpoint = "dataservice/device/"
 
 
-device_response = sesh.get(url=f"{base_url}{device_endpoint}", verify=False).json()
+device_response = sesh.get(url=f"{base_url}{device_endpoint}", verify=False)
 print (device_response.text)
+
+
