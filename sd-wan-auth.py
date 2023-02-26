@@ -1,12 +1,16 @@
 import requests
 import json
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+#Log in to sandbox to get sessionid
 api = "j_security_check"
-base_url = "https://sandbox-sdwan-2.cisco.com/"
+base_url = "https://10.10.20.90"
 url = base_url + api
 payload = {
-    "j_username": "devnetuser",
-    "j_password": "RG!_Yw919_83"
+    "j_username": "admin",
+    "j_password": "C1sco12345"
     }
 
 response = requests.post(url=url, data=payload, verify=False)
@@ -14,6 +18,7 @@ response = requests.post(url=url, data=payload, verify=False)
 cookies = response.headers["Set-Cookie"]
 jsessionid = cookies.split(";")
 
+#Log in with sessionid to get token
 
 headers = {'Cookie': jsessionid[0]}
 api = "dataservice/client/token"
@@ -23,8 +28,27 @@ token = response.text
 
 header = {'Content-Type': "application/json",'Cookie': jsessionid[0], 'X-XSRF-TOKEN': token}
 
-api = "dataservice/device"
-url = base_url + api      
+#Log in with token and sessionid to get devices   
+device_endpoint = "dataservice/template/feature/types"
+url = base_url + device_endpoint
 
 response = requests.get(url=url, headers=headers, verify=False).json()
 print (json.dumps(response, indent = 2))
+
+
+#monitor_endpoint = "dataservice/device/monitor"
+#url = base_url + monitor_endpoint
+
+#monitor_response = requests.get(url=url, headers=headers, verify=False).json()
+#vedges = monitor_response["data"]
+#print (vedges)
+
+#for vedge in vedges:
+#    if vedges[x]["status"] == "normal":
+#        print ("Status for " +  vedges[x]["host-name"] + " is " + vedges[x]["status"])
+
+#for vedge in monitor_response:
+
+#    if 
+
+#print (json.dumps(monitor_response, indent = 2))
